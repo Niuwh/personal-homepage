@@ -12,6 +12,13 @@ let checkMoveTimer;   // 用于存储定时器
 let startX, moveX;    // 存储鼠标坐标
 let beforeSound = 20, realSound = 20;      // 点击静音前的音量和目前的音量 70px为满
 
+// 禁止冒泡,以防mobilePhone模式，冒泡执行到timer的点击事件
+function stopPao(e) {
+  if (!e) var e = window.event;
+  e.cancelBubble = true;
+  if (e.stopPropagation) e.stopPropagation();
+}
+
 function adjustSound(sound = realSound) {   // 调节音量
   if (sound <= 0) {
     sound = 0;
@@ -36,6 +43,7 @@ function mouseMoveEvent(e) {
 }
 
 dot.addEventListener("mousedown", function (e) {
+  stopPao(e);
   // console.log("鼠标点击了");
   startX = e.clientX;
   document.addEventListener("mousemove", mouseMoveEvent);
@@ -54,24 +62,28 @@ document.addEventListener("mouseup", function () {
 });
 
 slider.addEventListener("click", function (e) {
+  stopPao(e)
   e.target === dot ? null : adjustSound(e.offsetX)
-}, false)
+})
 
-img.addEventListener("click", function () {
+img.addEventListener("click", function (e) {
+  stopPao(e)
   // 不想用if了，这样搞的
   img.src.includes("sound") ? (beforeSound = realSound) && adjustSound(0) : adjustSound(beforeSound);
 })
 
-start.onclick = function () {
+start.addEventListener("click", function (e) {
+  stopPao(e)
   audio.play();
   start.classList.add("hidden");
   pause.classList.remove("hidden");
-}
+})
 
-pause.onclick = function () {
+pause.addEventListener("click", function (e) {
+  stopPao(e);
   audio.pause();
   pause.classList.add("hidden");
   start.classList.remove("hidden");
-}
+})
 
 adjustSound();  // 首次执行一下

@@ -1,8 +1,8 @@
 /* 手机端样式文件 */
 @media screen and (max-width: 700px) {
   body {
-    /* background-image: url(https://t.mwm.moe/mp); */
-    background-image: url(../images/mb.webp);
+    background-image: url(https://t.mwm.moe/mp);
+    /* background-image: url(../images/mb.webp); */
     background-size: cover;
   }
 
@@ -48,28 +48,20 @@
   }
 
   /* 音乐时间 */
-  .music {
+  .phoneStyle {
     display: none;
     width: 0;
   }
 
-  .top .timer {
-    width: 100%;
-    min-width: 360px;
-  }
-
+  .top .timer,
   .top .music {
     width: 100%;
     min-width: 360px;
+    max-width: 660px;
   }
 
   /* 作品列表文字隐藏 */
   .netlink ul li span {
     display: none;
-  }
-
-  /* 音乐时间翻转 */
-  #reserve {
-    display: block;
   }
 }
