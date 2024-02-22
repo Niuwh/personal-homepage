@@ -49,8 +49,12 @@ fetch("https://restapi.amap.com/v3/ip?key=8947c5908f33a40f5b51f39fdef06236").the
   }).then(response => {
     location.children[1].textContent = response.lives[0].weather;
     location.children[2].textContent = response.lives[0].temperature + "°C";
+  }).catch(err => {
+    location.innerHTML = "<span>天气获取失败</sapn>"
+    console.log(err);
   })
 }).catch(err => {
+  location.innerHTML = "<span>天气获取失败</sapn>"
   console.log(err);
 })
 
