@@ -36,30 +36,45 @@ function adjustSound(sound = realSound) {   // 调节音量
   startX = moveX;
 }
 
+// 鼠标，手指移动
 function mouseMoveEvent(e) {
   // console.log("鼠标移动了");
   e.preventDefault(); // 阻止默认事件防止恶心的bug，烦死我了
-  moveX = e.clientX;
+  moveX = e.clientX
 }
 
-dot.addEventListener("mousedown", function (e) {
+function fingerMoveEvent(e) {
+  moveX = e.touches[0].clientX;
+}
+
+// 鼠标,手指按下
+function downEvent(e) {
   stopPao(e);
   // console.log("鼠标点击了");
-  startX = e.clientX;
+  e.touches ? (startX = e.touches[0].clientX) : (startX = e.clientX);
   document.addEventListener("mousemove", mouseMoveEvent);
+  document.addEventListener("touchmove", fingerMoveEvent, { passive: false });
   checkMoveTimer = setInterval(() => {
     const oldSound = fullSlider.clientWidth - 6;
     const difference = moveX - startX;
     const sound = oldSound + difference;
     adjustSound(sound);
   }, 100);
-})
+}
 
-document.addEventListener("mouseup", function () {
+// 鼠标，手指抬起
+function upEvent() {
   // console.log("鼠标松开了");
   document.removeEventListener("mousemove", mouseMoveEvent);
+  document.removeEventListener("touchmove", fingerMoveEvent, { passive: false });
   clearInterval(checkMoveTimer);
-});
+}
+
+dot.addEventListener("mousedown", downEvent);
+dot.addEventListener("touchstart", downEvent, { passive: false });
+
+document.addEventListener("mouseup", upEvent);
+document.addEventListener("touchend", upEvent);
 
 slider.addEventListener("click", function (e) {
   stopPao(e)
